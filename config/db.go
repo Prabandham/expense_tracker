@@ -10,7 +10,7 @@ import (
 	_ "github.com/jinzhu/gorm/dialects/postgres"
 
 	"github.com/Prabandham/expense_tracker/objects"
-	"github.com/Prabandham/expense_tracker/utils"
+	utils "github.com/Prabandham/expense_tracker/utils"
 	"github.com/go-redis/redis/v7"
 )
 
