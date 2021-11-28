@@ -32,8 +32,11 @@ func main() {
 	api.POST("/login", endpoints.Login)
 	api.POST("/register", endpoints.Register)
 
+	// Authorized routes
 	api.GET("/hello", TokenAuthMiddleware(redis), endpoints.Hello)
 	api.DELETE("/logout", TokenAuthMiddleware(redis), endpoints.Logout)
+	api.GET("/expense_types", TokenAuthMiddleware(redis), endpoints.ListExpenseTypes)
+	api.POST("/expense_types", TokenAuthMiddleware(redis), endpoints.CreateExpenseType)
 
 	log.Fatal(router.Run(":3000"))
 }
