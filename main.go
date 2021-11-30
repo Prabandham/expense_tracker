@@ -37,6 +37,8 @@ func main() {
 	api.DELETE("/logout", TokenAuthMiddleware(redis), endpoints.Logout)
 	api.GET("/expense_types", TokenAuthMiddleware(redis), endpoints.ListExpenseTypes)
 	api.POST("/expense_types", TokenAuthMiddleware(redis), endpoints.CreateExpenseType)
+	api.GET("/expenses", TokenAuthMiddleware(redis), endpoints.ListExpenses)
+	api.POST("/expenses", TokenAuthMiddleware(redis), endpoints.CreateExpense)
 
 	log.Fatal(router.Run(":3000"))
 }

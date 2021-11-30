@@ -1,0 +1,67 @@
+# This file will server as an example to test out all the endpoints.
+
+
+# API CONFIG
+@BASE_PATH=http://localhost:3000/api/v1
+
+
+# Register Request
+POST {{BASE_PATH}}/register
+Content-Type: application/json
+
+{
+  "email": "sriprabandham@gmail.com",
+  "name": "Srinidhi P",
+  "password": "SuperSecure"
+}
+####
+
+# LOGIN Request
+POST {{BASE_PATH}}/login
+Content-Type: application/json
+
+{
+  "email": "sriprabandham@gmail.com",
+  "password": "SuperSecure"
+}
+####
+
+# List all expense types
+GET {{BASE_PATH}}/expense_types?page=2&per_page=10
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhY2Nlc3NfdXVpZCI6IjdiODg4NzQ2LTRlM2ItNGNlNi04MTU5LTk2ODY2MTAxYzk0MyIsImF1dGhvcml6ZWQiOnRydWUsImV4cCI6MTYzODE5NDM4MCwidXNlcl9pZCI6IjNkZjNiNTc3LWE4ODAtNDE4Ni1hNzQ2LWRkYTZmMDUzNThhYSJ9.yqVBTku6N3w7xpwdK0ewKLQaIZscEwCD7GYcZjXEl_0 
+####
+
+# Create an expense type
+POST {{BASE_PATH}}/expense_types
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhY2Nlc3NfdXVpZCI6IjdiODg4NzQ2LTRlM2ItNGNlNi04MTU5LTk2ODY2MTAxYzk0MyIsImF1dGhvcml6ZWQiOnRydWUsImV4cCI6MTYzODE5NDM4MCwidXNlcl9pZCI6IjNkZjNiNTc3LWE4ODAtNDE4Ni1hNzQ2LWRkYTZmMDUzNThhYSJ9.yqVBTku6N3w7xpwdK0ewKLQaIZscEwCD7GYcZjXEl_0
+
+{
+  "name": "Misc"
+}
+####
+
+# List expenses for logged in user
+GET {{BASE_PATH}}/expenses?page=1&per_page=10
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhY2Nlc3NfdXVpZCI6IjU5NGZhNDBkLWNlZTItNDE2OC1iZjg1LTJmY2M1ZGExMjFiNyIsImF1dGhvcml6ZWQiOnRydWUsImV4cCI6MTYzODE5MjcxMSwidXNlcl9pZCI6IjNkZjNiNTc3LWE4ODAtNDE4Ni1hNzQ2LWRkYTZmMDUzNThhYSJ9.TLPa_YfNotWYnRFnkLX7YXl5PF-wZ6jlSotkSgkMw4g
+####
+
+# Create an Expense for logged in user.
+POST {{BASE_PATH}}/expenses
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhY2Nlc3NfdXVpZCI6Ijg1ODcxZWFlLWY2YjQtNGYzYy1iMWQ2LWVkNzBkZWFjNDBiMyIsImF1dGhvcml6ZWQiOnRydWUsImV4cCI6MTYzODE5NzgyNywidXNlcl9pZCI6IjNkZjNiNTc3LWE4ODAtNDE4Ni1hNzQ2LWRkYTZmMDUzNThhYSJ9.yjIPb49gbjHAWfTNkLIBUjcEkNmGwbCLeRNbeUpdJ1Y 
+
+{
+  "expense_type_id": "58db58d3-9b71-4086-9df4-8ea74d794728",
+  "amount_spent": 100,
+  "spent_on": "2021-11-29T13:49:01.079Z" // This should be in RFC3339 format when coming from caller.
+}
+###
+
+# Logout
+DELETE {{BASE_PATH}}/logout
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhY2Nlc3NfdXVpZCI6IjkyNjAwNmEzLWQwYjgtNDk1Mi1hM2FiLWQxY2IwMjJhMWQ3NiIsImF1dGhvcml6ZWQiOnRydWUsImV4cCI6MTYzODEyNDU4MCwidXNlcl9pZCI6IjNkZjNiNTc3LWE4ODAtNDE4Ni1hNzQ2LWRkYTZmMDUzNThhYSJ9.oiEp6AJXm0CC3elKiKoUEPrvFrSYaksjBF1DwEw-nHU 
+####
