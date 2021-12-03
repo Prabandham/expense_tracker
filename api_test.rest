@@ -3,6 +3,7 @@
 
 # API CONFIG
 @BASE_PATH=http://localhost:3000/api/v1
+@AUTH_TOKEN=Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhY2Nlc3NfdXVpZCI6ImY0ZTQ4Mjc2LTk4NzEtNDY0My04OWE0LTI5MzY0ZmY3N2QzOSIsImF1dGhvcml6ZWQiOnRydWUsImV4cCI6MTYzODUxMjgyMCwidXNlcl9pZCI6IjNkZjNiNTc3LWE4ODAtNDE4Ni1hNzQ2LWRkYTZmMDUzNThhYSJ9.aWv5ChukpYyfw7ospfp-yK4TP0z7GNWadyzV3ShmQEU
 
 
 # Register Request
@@ -29,13 +30,13 @@ Content-Type: application/json
 # List all expense types
 GET {{BASE_PATH}}/expense_types?page=3&per_page=10
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhY2Nlc3NfdXVpZCI6ImIzNDQ4Mjc2LTcxZjAtNDc0Yy05OWJmLWFlZWI0NjhjOTk1MiIsImF1dGhvcml6ZWQiOnRydWUsImV4cCI6MTYzODQ1MzM5MywidXNlcl9pZCI6IjNkZjNiNTc3LWE4ODAtNDE4Ni1hNzQ2LWRkYTZmMDUzNThhYSJ9._MJydzqj_NqofTAXNLB3paNXaJhBthWxcz9Z9xHUb58
+Authorization: {{AUTH_TOKEN}}
 ####
 
 # Create an expense type
 POST {{BASE_PATH}}/expense_types
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhY2Nlc3NfdXVpZCI6ImIzNDQ4Mjc2LTcxZjAtNDc0Yy05OWJmLWFlZWI0NjhjOTk1MiIsImF1dGhvcml6ZWQiOnRydWUsImV4cCI6MTYzODQ1MzM5MywidXNlcl9pZCI6IjNkZjNiNTc3LWE4ODAtNDE4Ni1hNzQ2LWRkYTZmMDUzNThhYSJ9._MJydzqj_NqofTAXNLB3paNXaJhBthWxcz9Z9xHUb58
+Authorization: {{AUTH_TOKEN}}
 
 {
   "name": "Unwanted Costs - 1"
@@ -45,13 +46,13 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhY2Nlc3NfdXVpZCI6I
 # List expenses for logged in user
 GET {{BASE_PATH}}/expenses?page=1&per_page=10
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhY2Nlc3NfdXVpZCI6ImY0ZTQ4Mjc2LTk4NzEtNDY0My04OWE0LTI5MzY0ZmY3N2QzOSIsImF1dGhvcml6ZWQiOnRydWUsImV4cCI6MTYzODUxMjgyMCwidXNlcl9pZCI6IjNkZjNiNTc3LWE4ODAtNDE4Ni1hNzQ2LWRkYTZmMDUzNThhYSJ9.aWv5ChukpYyfw7ospfp-yK4TP0z7GNWadyzV3ShmQEU
+Authorization: {{AUTH_TOKEN}}
 ####
 
 # Create an Expense for logged in user.
 POST {{BASE_PATH}}/expenses
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhY2Nlc3NfdXVpZCI6ImIzNDQ4Mjc2LTcxZjAtNDc0Yy05OWJmLWFlZWI0NjhjOTk1MiIsImF1dGhvcml6ZWQiOnRydWUsImV4cCI6MTYzODQ1MzM5MywidXNlcl9pZCI6IjNkZjNiNTc3LWE4ODAtNDE4Ni1hNzQ2LWRkYTZmMDUzNThhYSJ9._MJydzqj_NqofTAXNLB3paNXaJhBthWxcz9Z9xHUb58
+Authorization: {{AUTH_TOKEN}}
 
 {
   "expense_type_id": "58db58d3-9b71-4086-9df4-8ea74d794728",
@@ -63,5 +64,5 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhY2Nlc3NfdXVpZCI6I
 # Logout
 DELETE {{BASE_PATH}}/logout
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhY2Nlc3NfdXVpZCI6ImRlOTY3OWI1LTM3YWYtNDlkMy1iZmNhLTg2MmJmNjdkNjNjNyIsImF1dGhvcml6ZWQiOnRydWUsImV4cCI6MTYzODQ0MzE1MywidXNlcl9pZCI6IjNkZjNiNTc3LWE4ODAtNDE4Ni1hNzQ2LWRkYTZmMDUzNThhYSJ9.zwWlqTEPJuJbctcWz2r6Kk9vg3L21CRztEBWqRlkLxM
+Authorization: {{AUTH_TOKEN}}
 ####
