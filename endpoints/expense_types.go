@@ -1,8 +1,6 @@
 package endpoints
 
 import (
-	"net/http"
-
 	"github.com/Prabandham/expense_tracker/config"
 	"github.com/Prabandham/expense_tracker/objects"
 	p "github.com/Prabandham/paginator"
@@ -13,40 +11,23 @@ func ListExpenseTypes(c *gin.Context) {
 	var ExpenseTypes []objects.ExpenseType
 	var queryParams QueryParams
 	order_by := []string{"name asc"}
-	if err := c.ShouldBindQuery(&queryParams); err != nil {
-		c.JSON(http.StatusUnprocessableEntity, err.Error())
-		return
-	}
+	HandleError(c, c.ShouldBindQuery(&queryParams))
+
 	db := config.GetDatabaseConnection()
 	paginator := p.Paginator{DB: db.Connection, OrderBy: order_by, Page: queryParams.Page, PerPage: queryParams.PerPage}
-	data := paginator.Paginate(&ExpenseTypes)
-	c.JSON(http.StatusOK, gin.H{"data": data})
+	HandleSuccess(c, paginator.Paginate(&ExpenseTypes))
 }
 
 func CreateExpenseType(c *gin.Context) {
-	var expenseParams ExpenseTypeParams
+	var expenseTypeParams ExpenseTypeParams
+	HandleError(c, c.ShouldBindJSON(&expenseTypeParams))
+
 	db := config.GetDatabaseConnection()
-	if err := c.ShouldBindJSON(&expenseParams); err != nil {
-		c.JSON(http.StatusUnprocessableEntity, err.Error())
-		return
-	}
-	expense_type := objects.ExpenseType{Name: expenseParams.Name}
+	expense_type := objects.ExpenseType{Name: expenseTypeParams.Name}
 	result := db.Connection.Create(&expense_type)
 	if result.Error != nil {
-		c.JSON(http.StatusUnprocessableEntity, result.Error)
-		return
+		HandleError(c, result.Error)
 	}
 
-	c.JSON(http.StatusCreated, gin.H{
-		"data": expense_type,
-	})
-}
-
-type ExpenseTypeParams struct {
-	Name string `json:"name" binding:"required"`
-}
-
-type QueryParams struct {
-	Page string `form:"page"`
-	PerPage string `form:"per_page"`
+	HandleSuccess(c, result.Value)
 }

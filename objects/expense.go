@@ -7,6 +7,7 @@ type Expense struct {
 	ExpenseTypeID string
 	ExpenseType ExpenseType
 	UserID string
+	User User
 	AmountSpent int64 `gorm:"not null;default:0" binding:"required;" json:"amount_spent"`
 	SpentOn *time.Time `sql:"index; not null" json:"spent_on"`
 }

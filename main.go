@@ -5,8 +5,8 @@ import (
 	"net/http"
 
 	"github.com/Prabandham/expense_tracker/config"
-	"github.com/Prabandham/expense_tracker/utils"
 	"github.com/Prabandham/expense_tracker/endpoints"
+	"github.com/Prabandham/expense_tracker/utils"
 
 	"github.com/gin-gonic/gin"
 	env "github.com/joho/godotenv"
@@ -33,7 +33,6 @@ func main() {
 	api.POST("/register", endpoints.Register)
 
 	// Authorized routes
-	api.GET("/hello", TokenAuthMiddleware(redis), endpoints.Hello)
 	api.DELETE("/logout", TokenAuthMiddleware(redis), endpoints.Logout)
 	api.GET("/expense_types", TokenAuthMiddleware(redis), endpoints.ListExpenseTypes)
 	api.POST("/expense_types", TokenAuthMiddleware(redis), endpoints.CreateExpenseType)
@@ -44,24 +43,24 @@ func main() {
 }
 
 func TokenAuthMiddleware(redis *config.Redis) gin.HandlerFunc {
-  return func(c *gin.Context) {
-     err := utils.TokenValid(c.Request)
-     if err != nil {
-        c.JSON(http.StatusUnauthorized, "Unauthorized")
-        c.Abort()
-        return
-     }
-		 tokenAuth, err := utils.ExtractTokenMetadata(c.Request)
-		 if err != nil {
-				c.JSON(http.StatusUnauthorized, "unauthorized")
-				return
-		 }
-		 _, err = utils.FetchAuth(tokenAuth, redis.Connection)
-		 if err != nil {
-		 		c.JSON(http.StatusUnauthorized, "Unauthorized")
-        c.Abort()
-				return
+	return func(c *gin.Context) {
+		err := utils.TokenValid(c.Request)
+		if err != nil {
+			c.JSON(http.StatusUnauthorized, "Unauthorized")
+			c.Abort()
+			return
 		}
-     c.Next()
-  }
+		tokenAuth, err := utils.ExtractTokenMetadata(c.Request)
+		if err != nil {
+			c.JSON(http.StatusUnauthorized, "unauthorized")
+			return
+		}
+		_, err = utils.FetchAuth(tokenAuth, redis.Connection)
+		if err != nil {
+			c.JSON(http.StatusUnauthorized, "Unauthorized")
+			c.Abort()
+			return
+		}
+		c.Next()
+	}
 }
