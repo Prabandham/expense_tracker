@@ -1,5 +1,6 @@
 # Expense Tracker
 Is meant to be a simple application that will help in tracking income and expense.
+Debits represent money that is paid out of an account (Spent) and credits represent money that is paid into an account (Received)
 
 # Dependencies
 1. Postgres

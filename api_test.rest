@@ -3,8 +3,7 @@
 
 # API CONFIG
 @BASE_PATH=http://localhost:3000/api/v1
-@AUTH_TOKEN=Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhY2Nlc3NfdXVpZCI6ImY0ZTQ4Mjc2LTk4NzEtNDY0My04OWE0LTI5MzY0ZmY3N2QzOSIsImF1dGhvcml6ZWQiOnRydWUsImV4cCI6MTYzODUxMjgyMCwidXNlcl9pZCI6IjNkZjNiNTc3LWE4ODAtNDE4Ni1hNzQ2LWRkYTZmMDUzNThhYSJ9.aWv5ChukpYyfw7ospfp-yK4TP0z7GNWadyzV3ShmQEU
-
+@AUTH_TOKEN=Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhY2Nlc3NfdXVpZCI6Ijc0NTRjMzA1LTc5MGYtNDU4OC1hYWZkLTVhM2UwZTM4MDJhZCIsImF1dGhvcml6ZWQiOnRydWUsImV4cCI6MTYzODY5Mjc1NiwidXNlcl9pZCI6IjNkZjNiNTc3LWE4ODAtNDE4Ni1hNzQ2LWRkYTZmMDUzNThhYSJ9.LEaO0Xd8xwNEboZHBDkJogKOpncz7MEapnyMEHFvarI
 
 # Register Request
 POST {{BASE_PATH}}/register
@@ -27,37 +26,91 @@ Content-Type: application/json
 }
 ####
 
-# List all expense types
-GET {{BASE_PATH}}/expense_types?page=3&per_page=10
+# List all credit types
+GET {{BASE_PATH}}/credit_types?page=1&per_page=10
 Content-Type: application/json
 Authorization: {{AUTH_TOKEN}}
 ####
 
-# Create an expense type
-POST {{BASE_PATH}}/expense_types
+# Create an credit type
+POST {{BASE_PATH}}/credit_types
 Content-Type: application/json
 Authorization: {{AUTH_TOKEN}}
 
 {
-  "name": "Unwanted Costs - 1"
+  "name": "Consultation"
 }
 ####
 
-# List expenses for logged in user
-GET {{BASE_PATH}}/expenses?page=1&per_page=10
+# List all debit types
+GET {{BASE_PATH}}/debit_types?page=1&per_page=10
 Content-Type: application/json
 Authorization: {{AUTH_TOKEN}}
 ####
 
-# Create an Expense for logged in user.
-POST {{BASE_PATH}}/expenses
+# Create a debit type
+POST {{BASE_PATH}}/debit_types
 Content-Type: application/json
 Authorization: {{AUTH_TOKEN}}
 
 {
-  "expense_type_id": "58db58d3-9b71-4086-9df4-8ea74d794728",
-  "amount_spent": 100,
-  "spent_on": "2021-12-01T11:50:01.079Z"
+  "name": ""
+}
+####
+
+# List all accounts for the logged in user
+GET {{BASE_PATH}}/accounts?page=1&per_page=10
+Authorization: {{AUTH_TOKEN}}
+###
+
+# Create Account
+POST {{BASE_PATH}}/accounts
+Content-Type: application/json
+Authorization: {{AUTH_TOKEN}}
+
+{
+  "name": "Axis Bank",
+  "address": "Axis Bank Kormangala",
+  "ifsc_code": "IFSC004",
+  "available_balance": 5000
+}
+###
+
+# List all credits for logged in user
+GET {{BASE_PATH}}/credits?page=1&per_page=10
+Content-Type: application/json
+Authorization: {{AUTH_TOKEN}}
+####
+
+# Create an income record for logged in user.
+POST {{BASE_PATH}}/credits
+Content-Type: application/json
+Authorization: {{AUTH_TOKEN}}
+
+{
+  "credit_type_id": "",
+  "amount": 100,
+  "account_id": "",
+  "credited_on": "2021-12-01T11:50:01.079Z"
+}
+###
+
+# List all expenses for logged in user
+GET {{BASE_PATH}}/debits?page=1&per_page=10
+Content-Type: application/json
+Authorization: {{AUTH_TOKEN}}
+####
+
+# Create a debit for logged in user.
+POST {{BASE_PATH}}/debits
+Content-Type: application/json
+Authorization: {{AUTH_TOKEN}}
+
+{
+  "credit_type_id": "",
+  "amount": 100,
+  "account_id": "",
+  "debited_on": "2021-12-01T11:50:01.079Z"
 }
 ###
 

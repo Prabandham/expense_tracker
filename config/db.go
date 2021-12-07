@@ -65,5 +65,12 @@ func (db *Db) SetLogger() {
 }
 
 func (db *Db) MigrateModels() {
-	db.Connection.AutoMigrate(&objects.User{}, &objects.ExpenseType{}, &objects.Expense{})
+	db.Connection.AutoMigrate(
+		&objects.User{},
+		&objects.DebitType{}, 
+		&objects.Debit{}, 
+		&objects.Account{}, 
+		&objects.CreditType{}, 
+		&objects.Credit{},
+	)
 }

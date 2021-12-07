@@ -16,14 +16,32 @@ type RegesterParams struct {
 	Password string `json:"password" binding:"required"`
 }
 
-type ExpenseTypeParams struct {
+type DebitTypeParams struct {
+	Name string `json:"name" binding:"required"`
+}
+type CreditTypeParams struct {
 	Name string `json:"name" binding:"required"`
 }
 
-type ExpenseParams struct {
-	ExpenseTypeID string `json:"expense_type_id" binding:"required"`
-	AmountSpent   int64  `json:"amount_spent" binding:"required"`
-	SpentOn       myTime `json:"spent_on" binding:"required"`
+type DebitParams struct {
+	DebitTypeID string `json:"debit_type_id" binding:"required"`
+	Amount   int64  `json:"amount" binding:"required"`
+	AccountID string `json:"account_id" binding:"required"`
+	DebitedOn       myTime `json:"debited_on" binding:"required"`
+}
+
+type CreditParams struct {
+	CreditTypeID string `json:"credit_type_id" binding:"required"`
+	Amount   int64  `json:"amount" binding:"required"`
+	AccountID string `json:"account_id" binding:"required"`
+	CreditedOn       myTime `json:"credited_on" binding:"required"`
+}
+
+type AccountParams struct {
+	Name string `json:"name" binding:"required"`
+	Address string `json:"address" binding:"required"`
+	IfscCode string `json:"ifsc_code" binding:"required"`
+	AvailableBalance int64 `json:"available_balance"`
 }
 
 type QueryParams struct {

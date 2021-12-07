@@ -9,6 +9,7 @@ import (
 	"github.com/Prabandham/expense_tracker/utils"
 
 	"github.com/gin-gonic/gin"
+	"github.com/gin-contrib/cors"
 	env "github.com/joho/godotenv"
 )
 
@@ -26,7 +27,9 @@ func main() {
 	db.MigrateModels()
 
 	// Start server and load routes
+	gin.ForceConsoleColor()
 	router := gin.Default()
+	router.Use(cors.Default())
 	api := router.Group("/api/v1")
 	// Unauthenticated routes
 	api.POST("/login", endpoints.Login)
@@ -34,10 +37,16 @@ func main() {
 
 	// Authorized routes
 	api.DELETE("/logout", TokenAuthMiddleware(redis), endpoints.Logout)
-	api.GET("/expense_types", TokenAuthMiddleware(redis), endpoints.ListExpenseTypes)
-	api.POST("/expense_types", TokenAuthMiddleware(redis), endpoints.CreateExpenseType)
-	api.GET("/expenses", TokenAuthMiddleware(redis), endpoints.ListExpenses)
-	api.POST("/expenses", TokenAuthMiddleware(redis), endpoints.CreateExpense)
+	api.GET("/credit_types", TokenAuthMiddleware(redis), endpoints.ListCreditTypes)
+	api.POST("/credit_types", TokenAuthMiddleware(redis), endpoints.CreateCreditType)
+	api.GET("/debit_types", TokenAuthMiddleware(redis), endpoints.ListDebitTypes)
+	api.POST("/debit_types", TokenAuthMiddleware(redis), endpoints.CreateDebitType)
+	api.GET("/credits", TokenAuthMiddleware(redis), endpoints.ListCredits)
+	api.POST("/credits", TokenAuthMiddleware(redis), endpoints.CreateCredit)
+	api.GET("/debits", TokenAuthMiddleware(redis), endpoints.ListDebits)
+	api.POST("/debits", TokenAuthMiddleware(redis), endpoints.CreateDebit)
+	api.GET("/accounts", TokenAuthMiddleware(redis), endpoints.ListAccounts)
+	api.POST("/accounts", TokenAuthMiddleware(redis), endpoints.CreateAccount)
 
 	log.Fatal(router.Run(":3000"))
 }
