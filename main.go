@@ -3,6 +3,7 @@ package main
 import (
 	"log"
 	"net/http"
+	"time"
 
 	"github.com/Prabandham/expense_tracker/config"
 	"github.com/Prabandham/expense_tracker/endpoints"
@@ -10,16 +11,9 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/gin-contrib/cors"
-	env "github.com/joho/godotenv"
 )
 
 func main() {
-	// Load .env file
-	err := env.Load()
-	if err != nil {
-		log.Fatalf("Some error occurred. Err: %s", err)
-	}
-
 	// Initialize database, redis, setlogger and migrate models.
 	redis := config.GetRedisConnection()
 	db := config.GetDatabaseConnection()
@@ -29,7 +23,15 @@ func main() {
 	// Start server and load routes
 	gin.ForceConsoleColor()
 	router := gin.Default()
-	router.Use(cors.Default())
+	corsConfig := cors.New(cors.Config{
+		AllowAllOrigins: true,
+		AllowMethods:     []string{"GET", "POST", "PUT", "PATCH", "DELETE", "HEAD", "OPTIONS"},
+		AllowHeaders:     []string{"Origin", "Content-Length", "Content-Type", "Authorization"},
+    ExposeHeaders:    []string{"Content-Length"},
+    AllowCredentials: true,
+    MaxAge: 12 * time.Hour,
+  })
+	router.Use(corsConfig)
 	api := router.Group("/api/v1")
 	// Unauthenticated routes
 	api.POST("/login", endpoints.Login)

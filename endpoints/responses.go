@@ -13,18 +13,17 @@ type Response struct {
 }
 
 func HandleError(c *gin.Context, err error) {
-	if err != nil {
-		respondWithError(http.StatusUnprocessableEntity, err, c)
-		return
-	}
+	respondWithError(err, c)
 }
 
 func HandleSuccess(c *gin.Context, data interface{}) {
 	respondWithSuccess(data, c)
 }
 
-func respondWithError(status int, err error, c *gin.Context) {
-	c.JSON(http.StatusUnprocessableEntity, err)
+func respondWithError(err error, c *gin.Context) {
+	c.AbortWithStatusJSON(http.StatusBadRequest, gin.H{
+		"data": err.Error(),
+	})
 }
 
 func respondWithSuccess(data interface{}, c *gin.Context) {

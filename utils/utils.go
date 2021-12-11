@@ -4,13 +4,13 @@ import (
 	"errors"
 	"fmt"
 	"net/http"
-	"os"
 	"strings"
 	"time"
 
 	"github.com/dgrijalva/jwt-go"
 	"github.com/go-redis/redis/v7"
 	uuid "github.com/satori/go.uuid"
+	"github.com/Prabandham/expense_tracker/config"
 )
 
 type TokenDetails struct {
@@ -43,7 +43,7 @@ func CreateToken(userid string) (*TokenDetails, error) {
 	atClaims["user_id"] = userid
 	atClaims["exp"] = td.AtExpires
 	at := jwt.NewWithClaims(jwt.SigningMethodHS256, atClaims)
-	td.AccessToken, err = at.SignedString([]byte(GetEnv("ACCESS_SECRET", "")))
+	td.AccessToken, err = at.SignedString([]byte(config.GetEnv("ACCESS_SECRET", "")))
 	if err != nil {
 		return nil, err
 	}
@@ -54,36 +54,32 @@ func CreateToken(userid string) (*TokenDetails, error) {
 	rtClaims["user_id"] = userid
 	rtClaims["exp"] = td.RtExpires
 	rt := jwt.NewWithClaims(jwt.SigningMethodHS256, rtClaims)
-	td.RefreshToken, err = rt.SignedString([]byte(GetEnv("REFRESH_SECRET", "")))
+	td.RefreshToken, err = rt.SignedString([]byte(config.GetEnv("REFRESH_SECRET", "")))
 	if err != nil {
 		return nil, err
 	}
 	return td, nil
 }
 
-// Get Env
-func GetEnv(key, fallback string) string {
-	if value, ok := os.LookupEnv(key); ok {
-		return value
-	}
-	return fallback
-}
-
 // CreateAuth will persist the data to redis, this will help us invalidate the token as soon as the user logs out.
-func CreateAuth(userid string, td *TokenDetails, redisClient *redis.Client) error {
+func CreateAuth(userid string, redisClient *redis.Client) (*TokenDetails, error) {
+	td, err := CreateToken(userid)
+	if err != nil {
+		panic(err)
+	}
 	at := time.Unix(td.AtExpires, 0) //converting Unix to UTC(to Time object)
 	rt := time.Unix(td.RtExpires, 0)
 	now := time.Now()
 
 	errAccess := redisClient.Set(td.AccessUuid, userid, at.Sub(now)).Err()
 	if errAccess != nil {
-		return errAccess
+		return nil, errAccess
 	}
 	errRefresh := redisClient.Set(td.RefreshUuid, userid, rt.Sub(now)).Err()
 	if errRefresh != nil {
-		return errRefresh
+		return nil, errRefresh
 	}
-	return nil
+	return td, nil
 }
 
 func ExtractToken(r *http.Request) string {
@@ -103,7 +99,7 @@ func VerifyToken(r *http.Request) (*jwt.Token, error) {
      if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
         return nil, fmt.Errorf("unexpected signing method: %v", token.Header["alg"])
      }
-     return []byte(GetEnv("ACCESS_SECRET", "")), nil
+     return []byte(config.GetEnv("ACCESS_SECRET", "")), nil
   })
   if err != nil {
      return nil, err
@@ -116,7 +112,7 @@ func TokenValid(r *http.Request) error {
   if err != nil {
      return err
   }
-  if _, ok := token.Claims.(jwt.Claims); !ok && !token.Valid {
+  if !token.Valid {
      return err
   }
   return nil
@@ -135,7 +131,7 @@ func ExtractTokenMetadata(r *http.Request) (*AccessDetails, error) {
      }
      userId, err := claims["user_id"].(string)
      if !err {
-        return nil, errors.New("Could not fetch user Id from claims")
+        return nil, errors.New("could not fetch user Id from claims")
      }
      return &AccessDetails{
         AccessUuid: accessUuid,
