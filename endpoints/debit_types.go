@@ -28,3 +28,13 @@ func CreateDebitType(c *gin.Context) {
 	}
 	HandleSuccess(c, &debit_type)
 }
+
+func DeleteDebitType(c *gin.Context) {
+	id := c.Param("id")
+	var debitType objects.DebitType
+	if err := db.Connection.Where("id = ?", id).Delete(&debitType).Error; err != nil {
+		HandleError(c, err)
+		return
+	}
+	HandleSuccess(c, &debitType)
+}

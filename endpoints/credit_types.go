@@ -29,3 +29,13 @@ func CreateCreditType(c *gin.Context) {
 
 	HandleSuccess(c, &credit_type)
 }
+
+func DeleteCreditType(c *gin.Context) {
+	id := c.Param("id")
+	var creditType objects.CreditType
+	if err := db.Connection.Where("id = ?", id).Delete(&creditType).Error; err != nil {
+		HandleError(c, err)
+		return
+	}
+	HandleSuccess(c, &creditType)
+}
