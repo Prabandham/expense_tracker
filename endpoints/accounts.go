@@ -29,11 +29,19 @@ func CreateAccount(c *gin.Context) {
 		UserID:           CurrentUser(c).UserId,
 	}
 
-	result := db.Connection.Create(&account)
-	db.Connection.Preload("User").Find(&account)
-	if result.Error != nil {
-		HandleError(c, result.Error)
+	if err := db.Connection.Create(&account).Error; err != nil {
+		HandleError(c, err)
+		return
 	}
+	HandleSuccess(c, &account)
+}
 
-	HandleSuccess(c, account)
+func DeleteAccount(c *gin.Context) {
+	id := c.Param("id")
+	var account objects.Account
+	if err := db.Connection.Where("id = ?", id).Delete(&account).Error; err != nil {
+		HandleError(c, err)
+		return
+	}
+	HandleSuccess(c, &account)
 }

@@ -51,6 +51,7 @@ func main() {
 	api.POST("/debits", TokenAuthMiddleware(redis), endpoints.CreateDebit)
 	api.GET("/accounts", TokenAuthMiddleware(redis), endpoints.ListAccounts)
 	api.POST("/accounts", TokenAuthMiddleware(redis), endpoints.CreateAccount)
+	api.DELETE("/accounts/:id", TokenAuthMiddleware(redis), endpoints.DeleteAccount)
 
 	log.Fatal(router.Run(":3000"))
 }

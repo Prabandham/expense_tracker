@@ -31,7 +31,7 @@ type AccessDetails struct {
 func CreateToken(userid string) (*TokenDetails, error) {
 	var err error
 	td := &TokenDetails{}
-	td.AtExpires = time.Now().Add(time.Minute * 60).Unix() // Expire in 60 minutes
+	td.AtExpires = time.Now().Add(time.Minute * 15).Unix() // Expire in 60 minutes
 	td.AccessUuid = uuid.NewV4().String()
 	td.RtExpires = time.Now().Add(time.Hour * 24 * 7).Unix() // Expire in 7 days
 	td.RefreshUuid = uuid.NewV4().String()

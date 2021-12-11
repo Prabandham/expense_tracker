@@ -17,7 +17,7 @@ func Login(c *gin.Context) {
 
 	var user objects.User
 	if err := db.Connection.Where("email = ?", loginParams.Email).First(&user).Error; err != nil {
-		HandleError(c, errors.New("invalid Username or Password"))
+		HandleError(c, err)
 		return
 	}
 	if !user.ValidatePassword(loginParams.Password) {
