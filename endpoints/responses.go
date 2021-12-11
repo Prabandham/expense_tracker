@@ -22,7 +22,7 @@ func HandleSuccess(c *gin.Context, data interface{}) {
 
 func respondWithError(err error, c *gin.Context) {
 	c.AbortWithStatusJSON(http.StatusBadRequest, gin.H{
-		"data": err.Error(),
+		"data": err,
 	})
 }
 
