@@ -17,11 +17,11 @@ func Login(c *gin.Context) {
 
 	var user objects.User
 	if err := db.Connection.Where("email = ?", loginParams.Email).First(&user).Error; err != nil {
-		HandleError(c, err)
+		HandleError(c, errors.New("invlaid Username or Password").Error())
 		return
 	}
 	if !user.ValidatePassword(loginParams.Password) {
-		HandleError(c, errors.New("invalid Username or Password"))
+		HandleError(c, errors.New("invalid Username or Password").Error())
 		return
 	}
 

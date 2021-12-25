@@ -6,6 +6,7 @@ type Credit struct {
 	Base
 	CreditTypeID string `gorm:"index;not null" binding:"required" json:"credit_type_id"`
 	CreditType CreditType
+	Description string `gorm:"index;"`
 	UserID string `gorm:"index;not null" binding:"required" json:"user_id"`
 	User User
 	Amount int64 `gorm:"not null;default:0" binding:"required;" json:"amount"`

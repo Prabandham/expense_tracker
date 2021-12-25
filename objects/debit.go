@@ -4,8 +4,9 @@ import "time"
 
 type Debit struct {
 	Base
-	DebitTypeID string
+	DebitTypeID string `gorm:"index;not null" binding:"required" json:"debit_type_id"`
 	DebitType DebitType
+	Description string `gorm:"index;"`
 	UserID string
 	User User
 	Amount int64 `gorm:"not null;default:0" binding:"required;" json:"amount"`

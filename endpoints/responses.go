@@ -7,12 +7,12 @@ import (
 )
 
 type Response struct {
-	Status int
+	Status  int
 	Message string
-	Data interface{}
+	Data    interface{}
 }
 
-func HandleError(c *gin.Context, err error) {
+func HandleError(c *gin.Context, err interface{}) {
 	respondWithError(err, c)
 }
 
@@ -20,8 +20,8 @@ func HandleSuccess(c *gin.Context, data interface{}) {
 	respondWithSuccess(data, c)
 }
 
-func respondWithError(err error, c *gin.Context) {
-	c.AbortWithStatusJSON(http.StatusBadRequest, gin.H{
+func respondWithError(err interface{}, c *gin.Context) {
+	c.JSON(http.StatusBadRequest, gin.H{
 		"data": err,
 	})
 }
