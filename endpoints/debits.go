@@ -29,6 +29,7 @@ func CreateDebit(c *gin.Context) {
 		DebitedOn:   (*time.Time)(&debitParams.DebitedOn),
 		UserID:      CurrentUser(c).UserId,
 		AccountID:   debitParams.AccountID,
+		Description: debitParams.Description,
 	}
 
 	if err := db.Connection.Create(&debit).Error; err != nil {

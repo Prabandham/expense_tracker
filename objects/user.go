@@ -12,9 +12,9 @@ type User struct {
 	Name              string `gorm:"index;size:256" json:"name" sql:"not null"`
 	Password          string `gorm:"-" json:"password"`
 	EncryptedPassword string `json:"-"`
-	Accounts []Account
-	Credits []Credit
-	Debits []Debit
+	Accounts          []Account
+	Credits           []Credit
+	Debits            []Debit
 }
 
 // Before we save a user we check if the password is present

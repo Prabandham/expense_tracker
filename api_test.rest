@@ -107,7 +107,7 @@ Content-Type: application/json
 Authorization: {{AUTH_TOKEN}}
 
 {
-  "credit_type_id": "",
+  "debit_type_id": "",
   "amount": 100,
   "account_id": "",
   "debited_on": "2021-12-01T11:50:01.079Z"
