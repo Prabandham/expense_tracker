@@ -36,6 +36,7 @@ type CreditParams struct {
 	Amount       int64  `json:"amount" binding:"required"`
 	AccountID    string `json:"account_id" binding:"required"`
 	CreditedOn   myTime `json:"credited_on" binding:"required"`
+	Description  string `json:"description"`
 }
 
 type AccountParams struct {
@@ -48,6 +49,7 @@ type AccountParams struct {
 type QueryParams struct {
 	Page    string `form:"page"`
 	PerPage string `form:"per_page"`
+	AccountId string `form:"account_id"`
 }
 
 type myTime time.Time

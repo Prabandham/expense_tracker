@@ -10,11 +10,11 @@ import (
 
 func ListDebits(c *gin.Context) {
 	var queryParams QueryParams
-	c.ShouldBindQuery(&queryParams)
+	c.BindQuery(&queryParams)
 	order_by := []string{"created_at desc"}
 	var debits []objects.Debit
 
-	query := db.Connection.Preload("DebitType").Preload("User").Preload("Account").Model(&objects.Debit{}).Where("user_id = ?", CurrentUser(c).UserId)
+	query := db.Connection.Preload("DebitType").Preload("User").Preload("Account").Model(&objects.Debit{}).Where("user_id = ? and account_id = ?", CurrentUser(c).UserId, queryParams.AccountId)
 	paginator := p.Paginator{DB: query, OrderBy: order_by, Page: queryParams.Page, PerPage: queryParams.PerPage}
 	HandleSuccess(c, paginator.Paginate(&debits))
 }

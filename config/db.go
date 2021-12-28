@@ -5,11 +5,11 @@ import (
 	"os"
 	"sync"
 
+	"github.com/Prabandham/expense_tracker/objects"
 	"github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/postgres"
 	log "github.com/sirupsen/logrus"
 
-	"github.com/Prabandham/expense_tracker/objects"
 	"github.com/go-redis/redis/v7"
 	_ "github.com/joho/godotenv/autoload"
 )
