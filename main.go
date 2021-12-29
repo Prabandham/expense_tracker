@@ -4,12 +4,16 @@ import (
 	"log"
 	"net/http"
 	"time"
+	"io"
+	"os"
+	"fmt"
 
 	"github.com/Prabandham/expense_tracker/config"
 	"github.com/Prabandham/expense_tracker/endpoints"
 	"github.com/Prabandham/expense_tracker/utils"
 
 	"github.com/gin-contrib/cors"
+	"github.com/gin-gonic/autotls"
 	"github.com/gin-gonic/gin"
 )
 
@@ -21,7 +25,11 @@ func main() {
 	db.MigrateModels()
 
 	// Start server and load routes
-	gin.ForceConsoleColor()
+	gin.DisableConsoleColor()
+	// Logging to a file.
+	f, _ := os.Create("expense_tracker.log")
+	gin.DefaultWriter = io.MultiWriter(f)
+
 	router := gin.Default()
 	corsConfig := cors.New(cors.Config{
 		AllowAllOrigins:  true,
@@ -54,7 +62,12 @@ func main() {
 	api.GET("/accounts/:account_id/list_credits_and_debits", TokenAuthMiddleware(redis), endpoints.ListCreditsAndDebits)
 	api.DELETE("/accounts/:id", TokenAuthMiddleware(redis), endpoints.DeleteAccount)
 
-	log.Fatal(router.Run(":3000"))
+	if config.GetEnv("GO_ENV", "development") == "production" {
+		fmt.Println("This came here")
+		log.Fatal(autotls.Run(router, "expense-tracker-backend.larks.in", "www.expense-tracker-backend.larks.in"))
+	} else {
+		log.Fatal(router.Run(":3000"))
+	}
 }
 
 func TokenAuthMiddleware(redis *config.Redis) gin.HandlerFunc {

@@ -60,13 +60,13 @@ func GetDatabaseConnection() *Db {
 	dbOnce.Do(func() {
 		psqlInfo := fmt.Sprintf("host=%s user=%s dbname=%s sslmode=disable password=%s",
 			GetEnv("DB_HOST", "127.0.0.1"),
-			GetEnv("DB_USER", ""),
-			GetEnv("DB_NAME", ""),
+			GetEnv("DB_USER", "postgres"),
+			GetEnv("DB_NAME", "expense_tracker"),
 			GetEnv("DB_PASSWORD", ""),
 		)
 		db, err := gorm.Open("postgres", psqlInfo)
 		if err != nil {
-			panic("Could not connect to database")
+			panic(err.Error())
 		}
 		singleton = &Db{Connection: db}
 	})

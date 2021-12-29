@@ -1,0 +1,28 @@
+[GIN-debug] [WARNING] Creating an Engine instance with the Logger and Recovery middleware already attached.
+
+[GIN-debug] [WARNING] Running in "debug" mode. Switch to "release" mode in production.
+ - using env:	export GIN_MODE=release
+ - using code:	gin.SetMode(gin.ReleaseMode)
+
+[GIN-debug] POST   /api/v1/login             --> github.com/Prabandham/expense_tracker/endpoints.Login (4 handlers)
+[GIN-debug] POST   /api/v1/register          --> github.com/Prabandham/expense_tracker/endpoints.Register (4 handlers)
+[GIN-debug] DELETE /api/v1/logout            --> github.com/Prabandham/expense_tracker/endpoints.Logout (5 handlers)
+[GIN-debug] GET    /api/v1/credit_types      --> github.com/Prabandham/expense_tracker/endpoints.ListCreditTypes (5 handlers)
+[GIN-debug] POST   /api/v1/credit_types      --> github.com/Prabandham/expense_tracker/endpoints.CreateCreditType (5 handlers)
+[GIN-debug] GET    /api/v1/debit_types       --> github.com/Prabandham/expense_tracker/endpoints.ListDebitTypes (5 handlers)
+[GIN-debug] POST   /api/v1/debit_types       --> github.com/Prabandham/expense_tracker/endpoints.CreateDebitType (5 handlers)
+[GIN-debug] DELETE /api/v1/debit_types/:id   --> github.com/Prabandham/expense_tracker/endpoints.DeleteDebitType (5 handlers)
+[GIN-debug] GET    /api/v1/credits           --> github.com/Prabandham/expense_tracker/endpoints.ListCredits (5 handlers)
+[GIN-debug] POST   /api/v1/credits           --> github.com/Prabandham/expense_tracker/endpoints.CreateCredit (5 handlers)
+[GIN-debug] DELETE /api/v1/credit_types/:id  --> github.com/Prabandham/expense_tracker/endpoints.DeleteCreditType (5 handlers)
+[GIN-debug] GET    /api/v1/debits            --> github.com/Prabandham/expense_tracker/endpoints.ListDebits (5 handlers)
+[GIN-debug] POST   /api/v1/debits            --> github.com/Prabandham/expense_tracker/endpoints.CreateDebit (5 handlers)
+[GIN-debug] GET    /api/v1/accounts          --> github.com/Prabandham/expense_tracker/endpoints.ListAccounts (5 handlers)
+[GIN-debug] POST   /api/v1/accounts          --> github.com/Prabandham/expense_tracker/endpoints.CreateAccount (5 handlers)
+[GIN-debug] GET    /api/v1/accounts/:account_id/list_credits_and_debits --> github.com/Prabandham/expense_tracker/endpoints.ListCreditsAndDebits (5 handlers)
+[GIN-debug] DELETE /api/v1/accounts/:id      --> github.com/Prabandham/expense_tracker/endpoints.DeleteAccount (5 handlers)
+[GIN-debug] [WARNING] You trusted all proxies, this is NOT safe. We recommend you to set a value.
+Please check https://pkg.go.dev/github.com/gin-gonic/gin#readme-don-t-trust-all-proxies for details.
+[GIN-debug] Listening and serving HTTP on :3000
+[GIN] 2021/12/29 - 15:04:04 | 404 |       2.958µs |       127.0.0.1 | GET      "/"
+[GIN] 2021/12/29 - 15:04:04 | 404 |       1.625µs |       127.0.0.1 | GET      "/favicon.ico"
