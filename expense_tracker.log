@@ -4,6 +4,7 @@
  - using env:	export GIN_MODE=release
  - using code:	gin.SetMode(gin.ReleaseMode)
 
+[GIN-debug] GET    /                         --> github.com/Prabandham/expense_tracker/endpoints.Ping (4 handlers)
 [GIN-debug] POST   /api/v1/login             --> github.com/Prabandham/expense_tracker/endpoints.Login (4 handlers)
 [GIN-debug] POST   /api/v1/register          --> github.com/Prabandham/expense_tracker/endpoints.Register (4 handlers)
 [GIN-debug] DELETE /api/v1/logout            --> github.com/Prabandham/expense_tracker/endpoints.Logout (5 handlers)
@@ -21,8 +22,11 @@
 [GIN-debug] POST   /api/v1/accounts          --> github.com/Prabandham/expense_tracker/endpoints.CreateAccount (5 handlers)
 [GIN-debug] GET    /api/v1/accounts/:account_id/list_credits_and_debits --> github.com/Prabandham/expense_tracker/endpoints.ListCreditsAndDebits (5 handlers)
 [GIN-debug] DELETE /api/v1/accounts/:id      --> github.com/Prabandham/expense_tracker/endpoints.DeleteAccount (5 handlers)
+[GIN-debug] GET    /api/v1/grouped_credits   --> github.com/Prabandham/expense_tracker/endpoints.GroupedCredits (5 handlers)
+[GIN-debug] GET    /api/v1/grouped_debits    --> github.com/Prabandham/expense_tracker/endpoints.GroupedDebits (5 handlers)
 [GIN-debug] [WARNING] You trusted all proxies, this is NOT safe. We recommend you to set a value.
 Please check https://pkg.go.dev/github.com/gin-gonic/gin#readme-don-t-trust-all-proxies for details.
 [GIN-debug] Listening and serving HTTP on :3000
-[GIN] 2021/12/29 - 15:04:04 | 404 |       2.958µs |       127.0.0.1 | GET      "/"
-[GIN] 2021/12/29 - 15:04:04 | 404 |       1.625µs |       127.0.0.1 | GET      "/favicon.ico"
+[GIN] 2021/12/30 - 12:47:00 | 200 |    7.948333ms |       127.0.0.1 | POST     "/api/v1/login"
+[GIN] 2021/12/30 - 12:47:00 | 200 |    9.727084ms |       127.0.0.1 | GET      "/api/v1/grouped_credits"
+[GIN] 2021/12/30 - 12:47:00 | 200 |   16.519916ms |       127.0.0.1 | GET      "/api/v1/grouped_debits"

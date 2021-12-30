@@ -4,6 +4,7 @@ import (
 	"github.com/Prabandham/expense_tracker/config"
 	"github.com/Prabandham/expense_tracker/utils"
 	"github.com/gin-gonic/gin"
+	"github.com/Davmuz/gqt"
 )
 
 var redis = config.GetRedisConnection()
@@ -18,4 +19,11 @@ func CurrentUser(c *gin.Context) *utils.AccessDetails {
 		return nil
 	}
 	return au
+}
+
+func QueryRepo() *gqt.Repository {
+	sql := gqt.NewRepository()
+	queryRepoPath := config.GetEnv("QUERY_REPO_PATH", "/Users/prabandham/projects/go/src/github.com/Prabandham/expense_tracker/config")
+	sql.Add(queryRepoPath, "*.sql")
+	return sql
 }

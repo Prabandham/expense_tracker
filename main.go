@@ -6,14 +6,12 @@ import (
 	"time"
 	"io"
 	"os"
-	"fmt"
 
 	"github.com/Prabandham/expense_tracker/config"
 	"github.com/Prabandham/expense_tracker/endpoints"
 	"github.com/Prabandham/expense_tracker/utils"
 
 	"github.com/gin-contrib/cors"
-	"github.com/gin-gonic/autotls"
 	"github.com/gin-gonic/gin"
 )
 
@@ -40,6 +38,9 @@ func main() {
 		MaxAge:           12 * time.Hour,
 	})
 	router.Use(corsConfig)
+	// Dummy router to check config / health of system
+	router.GET("/", endpoints.Ping)
+
 	api := router.Group("/api/v1")
 	// Unauthenticated routes
 	api.POST("/login", endpoints.Login)
@@ -61,13 +62,10 @@ func main() {
 	api.POST("/accounts", TokenAuthMiddleware(redis), endpoints.CreateAccount)
 	api.GET("/accounts/:account_id/list_credits_and_debits", TokenAuthMiddleware(redis), endpoints.ListCreditsAndDebits)
 	api.DELETE("/accounts/:id", TokenAuthMiddleware(redis), endpoints.DeleteAccount)
+	api.GET("/grouped_credits", TokenAuthMiddleware(redis), endpoints.GroupedCredits)
+	api.GET("/grouped_debits", TokenAuthMiddleware(redis), endpoints.GroupedDebits)
 
-	if config.GetEnv("GO_ENV", "development") == "production" {
-		fmt.Println("This came here")
-		log.Fatal(autotls.Run(router, "expense-tracker-backend.larks.in", "www.expense-tracker-backend.larks.in"))
-	} else {
-		log.Fatal(router.Run(":3000"))
-	}
+	log.Fatal(router.Run(":3000"))
 }
 
 func TokenAuthMiddleware(redis *config.Redis) gin.HandlerFunc {
