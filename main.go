@@ -24,9 +24,11 @@ func main() {
 
 	// Start server and load routes
 	gin.DisableConsoleColor()
-	// Logging to a file.
-	f, _ := os.Create("expense_tracker.log")
-	gin.DefaultWriter = io.MultiWriter(f)
+	if config.GetEnv("GO_ENV", "development") == "production" {
+		// Logging to a file.
+		f, _ := os.Create("/home/ubuntu/apps/expense_tracker.log")
+		gin.DefaultWriter = io.MultiWriter(f)
+	}
 
 	router := gin.Default()
 	corsConfig := cors.New(cors.Config{

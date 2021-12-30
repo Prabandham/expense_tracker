@@ -23,7 +23,11 @@ func CurrentUser(c *gin.Context) *utils.AccessDetails {
 
 func QueryRepo() *gqt.Repository {
 	sql := gqt.NewRepository()
-	queryRepoPath := config.GetEnv("QUERY_REPO_PATH", "/Users/prabandham/projects/go/src/github.com/Prabandham/expense_tracker/config")
-	sql.Add(queryRepoPath, "*.sql")
+	if config.GetEnv("GO_ENV", "development") == "production" {
+		sql.Add("/home/ubuntu/apps", "*.sql")
+	} else {
+		queryRepoPath := "/Users/prabandham/projects/go/src/github.com/Prabandham/expense_tracker/config"
+		sql.Add(queryRepoPath, "*.sql")
+	}
 	return sql
 }
