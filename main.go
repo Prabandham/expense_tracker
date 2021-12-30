@@ -24,7 +24,7 @@ func main() {
 
 	// Start server and load routes
 	gin.DisableConsoleColor()
-	if config.GetEnv("GO_ENV", "development") == "production" {
+	if config.GetEnv("GO_ENV", "production") == "production" {
 		// Logging to a file.
 		f, _ := os.Create("/home/ubuntu/apps/expense_tracker.log")
 		gin.DefaultWriter = io.MultiWriter(f)
