@@ -31,7 +31,7 @@ func Login(c *gin.Context) {
 		return
 	}
 
-	HandleSuccess(c, gin.H{"access_token": token.AccessToken, "refresh_token": token.RefreshToken})
+	HandleSuccess(c, gin.H{"access_token": token.AccessToken, "refresh_token": token.RefreshToken, "user_id": user.ID.String()})
 }
 
 // Register endpoint will create a user

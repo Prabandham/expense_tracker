@@ -50,10 +50,11 @@ var redisOnce sync.Once
 
 // Get Env
 func GetEnv(key, fallback string) string {
-	if value := os.Getenv(key); value != "" {
-		return value
+	e := os.Getenv(key)
+	if e == "" {
+		return fallback
 	}
-	return fallback
+	return e
 }
 
 func GetDatabaseConnection() *Db {

@@ -23,6 +23,13 @@ type CreditTypeParams struct {
 	Name string `json:"name" binding:"required"`
 }
 
+type StatsParams struct {
+	Type string `json:"type"`
+	AccountID string `json:"account_id"`
+	Condition string `json:"condition"`
+	RequestKey string `json:"request_key"`
+}
+
 type DebitParams struct {
 	DebitTypeID string `json:"debit_type_id" binding:"required"`
 	Amount      int64  `json:"amount" binding:"required"`

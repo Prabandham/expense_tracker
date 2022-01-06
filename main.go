@@ -1,11 +1,12 @@
 package main
 
 import (
+	"fmt"
+	"io"
 	"log"
 	"net/http"
-	"time"
-	"io"
 	"os"
+	"time"
 
 	"github.com/Prabandham/expense_tracker/config"
 	"github.com/Prabandham/expense_tracker/endpoints"
@@ -24,7 +25,7 @@ func main() {
 
 	// Start server and load routes
 	gin.DisableConsoleColor()
-	if config.GetEnv("GO_ENV", "production") == "production" {
+	if config.GetEnv("GO_ENV", "development") == "production" {
 		// Logging to a file.
 		f, _ := os.Create("/home/ubuntu/apps/expense_tracker.log")
 		gin.DefaultWriter = io.MultiWriter(f)
@@ -41,6 +42,8 @@ func main() {
 	})
 	router.Use(corsConfig)
 	// Dummy router to check config / health of system
+	go utils.WebSocketHub.Run()
+	go utils.ListenForMessages()
 	router.GET("/", endpoints.Ping)
 
 	api := router.Group("/api/v1")
@@ -49,6 +52,11 @@ func main() {
 	api.POST("/register", endpoints.Register)
 
 	// Authorized routes
+	api.GET("/ws/:socketId", func(c *gin.Context) {
+		socketId := c.Param("socketId")
+		fmt.Println("Got socket ID as", socketId)
+		utils.ServeWs(c.Writer, c.Request, socketId)
+	})
 	api.DELETE("/logout", TokenAuthMiddleware(redis), endpoints.Logout)
 	api.GET("/credit_types", TokenAuthMiddleware(redis), endpoints.ListCreditTypes)
 	api.POST("/credit_types", TokenAuthMiddleware(redis), endpoints.CreateCreditType)
@@ -66,6 +74,10 @@ func main() {
 	api.DELETE("/accounts/:id", TokenAuthMiddleware(redis), endpoints.DeleteAccount)
 	api.GET("/grouped_credits", TokenAuthMiddleware(redis), endpoints.GroupedCredits)
 	api.GET("/grouped_debits", TokenAuthMiddleware(redis), endpoints.GroupedDebits)
+
+	// This endpoint will listen to calls made from the analytics engine and
+	// then push that data to the user via websockets
+	api.POST("/stats_callback", TokenAuthMiddleware(redis), endpoints.BroadcastTest)
 
 	log.Fatal(router.Run(":3000"))
 }
